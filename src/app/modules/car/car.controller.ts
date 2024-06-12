@@ -21,15 +21,19 @@ const getAllCars = catchAsync(async (req, res) => {
     data: result,
   });
 });
-// const getSingleCars = catchAsync(async (req, res) => {
-//   const { id } = req.params;
-//   const result = await CarServices.getSingleCarsFromDB(id);
-//   sendResponse(res, {
-
-//   })
-// });
+const getSingleCars = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await CarServices.getSingleCarsFromDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'A Car retrieved successfully',
+    data: result,
+  });
+});
 
 export const CarControllers = {
   createCars,
   getAllCars,
+  getSingleCars,
 };
