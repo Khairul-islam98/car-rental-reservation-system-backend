@@ -11,7 +11,17 @@ const register = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const login = catchAsync(async (req, res) => {
+  const result = await AuthServices.login(req.body);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User logged in successfully',
+    data: result,
+  });
+});
 
 export const AuthControllers = {
   register,
+  login,
 };
