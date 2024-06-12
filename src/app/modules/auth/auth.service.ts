@@ -17,16 +17,6 @@ const registerIntoDB = async (payload: TUser) => {
   return result;
 };
 const login = async (payload: TLoginUser) => {
-  // const user = await User.findOne({ email: payload.email }).select('+password');
-  // if (!user) {
-  //   throw new AppError(httpStatus.BAD_REQUEST, 'User not found!');
-  // }
-  // const isPasswordMatch = await bcrypt.compare(payload.password, user.password);
-
-  // console.log('password match', isPasswordMatch);
-  // if (!isPasswordMatch) {
-  //   throw new AppError(httpStatus.FORBIDDEN, 'this password is not matched !');
-  // }
   const user = await User.isUserExist(payload.email);
   if (!user) {
     throw new AppError(httpStatus.BAD_REQUEST, 'User not found!');
