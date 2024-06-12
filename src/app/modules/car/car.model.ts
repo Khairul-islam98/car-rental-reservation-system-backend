@@ -23,7 +23,6 @@ const carSchema = new Schema<TCar>(
       type: String,
       enum: ['available', 'unavailable'],
       default: 'available',
-      required: true,
     },
     features: {
       type: [String],

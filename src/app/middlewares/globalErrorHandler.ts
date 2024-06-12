@@ -21,27 +21,36 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
       message: 'Something went wrong',
     },
   ];
+  // zod error handling
   if (err instanceof ZodError) {
     const simlifiedError = handleZodError(err);
     statusCode = simlifiedError?.statusCode;
     message = simlifiedError?.message;
     errorSources = simlifiedError?.errorSources;
-  } else if (err?.name === 'ValidatorError') {
+  }
+  // mongoose validation error handling
+  else if (err?.name === 'ValidatorError') {
     const simlifiedError = handleValidationError(err);
     statusCode = simlifiedError?.statusCode;
     message = simlifiedError?.message;
     errorSources = simlifiedError?.errorSources;
-  } else if (err?.name === 'CastError') {
+  }
+  // mongoose cast error handling
+  else if (err?.name === 'CastError') {
     const simlifiedError = handleCastError(err);
     statusCode = simlifiedError?.statusCode;
     message = simlifiedError?.message;
     errorSources = simlifiedError?.errorSources;
-  } else if (err?.code === 11000) {
+  }
+  // mongoose duplicate error handling
+  else if (err?.code === 11000) {
     const simlifiedError = handleDuplicateError(err);
     statusCode = simlifiedError?.statusCode;
     message = simlifiedError?.message;
     errorSources = simlifiedError?.errorSources;
-  } else if (err instanceof AppError) {
+  }
+  // apperror validation error handling
+  else if (err instanceof AppError) {
     statusCode = err.statusCode;
     message = err.message;
     errorSources = [
@@ -50,7 +59,9 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         message: err?.message,
       },
     ];
-  } else if (err instanceof Error) {
+  }
+  // error validation
+  else if (err instanceof Error) {
     message = err.message;
     errorSources = [
       {

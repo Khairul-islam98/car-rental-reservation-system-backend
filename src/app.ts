@@ -10,10 +10,10 @@ app.use(express.json());
 app.use(cors());
 
 // application routes
-app.use('', router);
+app.use('/api', router);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('Welcome To Car Rental Reservation System API Service!');
 });
 
 // global error handler
