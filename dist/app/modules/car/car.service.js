@@ -23,22 +23,27 @@ const booking_model_1 = require("../booking/booking.model");
 const user_model_1 = require("../user/user.model");
 const car_utils_1 = require("./car.utils");
 const createCarsIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    // create a car
     const result = yield car_model_1.Car.create(payload);
     return result;
 });
 const getAllCarsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    // get all cars
     const result = yield car_model_1.Car.find();
     return result;
 });
 const getSingleCarsFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    // get single car
     const result = yield car_model_1.Car.findById(id);
     return result;
 });
 const updateCarsIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    // checking car id is exists
     const isCarExists = yield car_model_1.Car.findById(id);
     if (!isCarExists) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Car is not found !');
     }
+    // update car information in DB
     const result = yield car_model_1.Car.findByIdAndUpdate(id, payload, {
         new: true,
         runValidators: true,
@@ -46,36 +51,44 @@ const updateCarsIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, func
     return result;
 });
 const deleteCarsFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    // checking car id is exists
     const isCarExists = yield car_model_1.Car.findById(id);
     if (!isCarExists) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Car is not found !');
     }
+    // car partial delete from dB
     const result = yield car_model_1.Car.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
     return result;
 });
 const returnCarIntoDB = (user, data) => __awaiter(void 0, void 0, void 0, function* () {
+    // checking user exists
     const userData = yield user_model_1.User.isUserExist(user === null || user === void 0 ? void 0 : user.email);
     if (!userData) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'User not found!');
     }
+    // checking booking id is exists
     const bookingData = yield booking_model_1.Booking.findById(data.bookingId);
     if (!bookingData) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Booking not found!');
     }
+    // checking car is exists
     const carData = yield car_model_1.Car.findById(bookingData === null || bookingData === void 0 ? void 0 : bookingData.car);
     if (!carData) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Car not found!');
     }
     const pricePerHour = carData === null || carData === void 0 ? void 0 : carData.pricePerHour;
     const bookingDataStartTime = bookingData === null || bookingData === void 0 ? void 0 : bookingData.startTime;
+    // total cost calculation
     const totalCost = (0, car_utils_1.totalCostCalculation)(bookingDataStartTime, data.endTime, pricePerHour);
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
+        // car status unavailable to availabe set DB
         const updatedCarData = yield car_model_1.Car.findByIdAndUpdate(bookingData === null || bookingData === void 0 ? void 0 : bookingData.car, { status: 'available' }, { new: true, session });
         if (!updatedCarData) {
             throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'Failed to update data!');
         }
+        // save totalcost in DB
         const result = yield booking_model_1.Booking.findByIdAndUpdate(data.bookingId, {
             endTime: data.endTime,
             totalCost: totalCost,

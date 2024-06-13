@@ -14,6 +14,14 @@ const createCars = catchAsync(async (req, res) => {
 });
 const getAllCars = catchAsync(async (req, res) => {
   const result = await CarServices.getAllCarsFromDB();
+  if (!result) {
+    res.status(httpStatus.NOT_FOUND).json({
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'No Data Found',
+      data: [],
+    });
+  }
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -24,6 +32,14 @@ const getAllCars = catchAsync(async (req, res) => {
 const getSingleCars = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await CarServices.getSingleCarsFromDB(id);
+  if (!result) {
+    res.status(httpStatus.NOT_FOUND).json({
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'No Data Found',
+      data: [],
+    });
+  }
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -34,6 +50,14 @@ const getSingleCars = catchAsync(async (req, res) => {
 const updateCars = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await CarServices.updateCarsIntoDB(id, req.body);
+  if (!result) {
+    res.status(httpStatus.NOT_FOUND).json({
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'No Data Found',
+      data: [],
+    });
+  }
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

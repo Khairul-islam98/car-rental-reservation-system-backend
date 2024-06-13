@@ -21,6 +21,7 @@ const AppError_1 = __importDefault(require("../../errors/AppError"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../../config"));
 const registerIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    // checking user exists
     const user = yield user_model_1.User.findOne({ email: payload.email });
     if (user) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'This user already exist !');
@@ -29,13 +30,16 @@ const registerIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* 
     return result;
 });
 const login = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    // checking user exists
     const user = yield user_model_1.User.isUserExist(payload.email);
     if (!user) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'User not found!');
     }
+    // check password matche
     if (!(yield user_model_1.User.isPasswordMatched(payload === null || payload === void 0 ? void 0 : payload.password, user === null || user === void 0 ? void 0 : user.password))) {
         throw new AppError_1.default(http_status_1.default.FORBIDDEN, 'password do not matched!');
     }
+    // token create
     const jwtPayload = {
         email: user.email,
         role: user.role,

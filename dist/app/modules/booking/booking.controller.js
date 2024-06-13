@@ -39,6 +39,14 @@ const createBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
 }));
 const getAllBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_service_1.BookingServices.getAllBookingFromDB(req.query);
+    if (!result || result.length === 0) {
+        res.status(http_status_1.default.NOT_FOUND).json({
+            success: false,
+            statusCode: http_status_1.default.NOT_FOUND,
+            message: 'No Data Found',
+            data: [],
+        });
+    }
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -50,6 +58,14 @@ const getMyBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     var _b;
     const userData = (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b._id;
     const result = yield booking_service_1.BookingServices.getMyBookingFromDB(userData);
+    if (!result || result.length === 0) {
+        res.status(http_status_1.default.NOT_FOUND).json({
+            success: false,
+            statusCode: http_status_1.default.NOT_FOUND,
+            message: 'No Data Found',
+            data: [],
+        });
+    }
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

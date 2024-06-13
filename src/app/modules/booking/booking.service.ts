@@ -12,6 +12,11 @@ const createBookingIntoDB = async (payload: TBooking) => {
   if (!car) {
     throw new AppError(httpStatus.NOT_FOUND, 'Car not found !');
   }
+  // check the car status
+  const carStatus = car.status;
+  if (carStatus === 'unavailable') {
+    throw new AppError(httpStatus.CONFLICT, 'This car already reservation!');
+  }
   // checking user exists
   const user = await User.findById(payload.user);
   if (!user) {
@@ -48,6 +53,7 @@ const getMyBookingFromDB = async (userData: string) => {
   if (!user) {
     throw new Error('User not found');
   }
+
   // get my booking data
   const result = await Booking.find({ user: userData })
     .populate('user')
