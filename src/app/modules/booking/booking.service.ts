@@ -1,4 +1,6 @@
+import httpStatus from 'http-status';
 import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../errors/AppError';
 import { Car } from '../car/car.model';
 import { User } from '../user/user.model';
 import { TBooking } from './booking.interface';
@@ -7,13 +9,13 @@ import { Booking } from './booking.model';
 const createBookingIntoDB = async (payload: TBooking) => {
   const car = await Car.findOne({ _id: payload.car });
   if (!car) {
-    throw new Error('Car not found !');
+    throw new AppError(httpStatus.NOT_FOUND, 'Car not found !');
   }
 
   // Ensure the user exists
   const user = await User.findById(payload.user);
   if (!user) {
-    throw new Error('User not found !');
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
   }
 
   // Create the booking
@@ -41,7 +43,19 @@ const getAllBookingFromDB = async (query: Record<string, unknown>) => {
   return result;
 };
 
+const getMyBookingFromDB = async (userData: string) => {
+  const user = await User.findById(userData);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  const result = await Booking.find({ user: userData })
+    .populate('user')
+    .populate('car');
+  return result;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingFromDB,
+  getMyBookingFromDB,
 };
