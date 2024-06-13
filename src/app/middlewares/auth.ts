@@ -15,6 +15,7 @@ export const auth = (...requiredRoles: TUserRole[]) => {
         'You have no access to this route',
       );
     }
+
     const decoded = jwt.verify(
       token,
       config.jwt_access_secret as string,
@@ -31,13 +32,13 @@ export const auth = (...requiredRoles: TUserRole[]) => {
       throw new AppError(httpStatus.NOT_FOUND, 'User is not found !');
     }
 
-    if (!requiredRoles.includes(role)) {
+    if (requiredRoles && !requiredRoles.includes(role)) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
         'You have no access to this route',
       );
     }
-
+    req.user = user;
     next();
   });
 };
