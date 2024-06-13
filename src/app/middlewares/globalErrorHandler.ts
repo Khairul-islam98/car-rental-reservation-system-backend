@@ -12,7 +12,6 @@ import AppError from '../errors/AppError';
 import config from '../config';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  // setting default values
   let statusCode = 500;
   let message = 'Something went wrong';
   let errorSources: TErrorSources = [
@@ -21,7 +20,6 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
       message: 'Something went wrong',
     },
   ];
-  // zod error handling
   if (err instanceof ZodError) {
     const simlifiedError = handleZodError(err);
     statusCode = simlifiedError?.statusCode;

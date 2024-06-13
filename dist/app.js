@@ -13,9 +13,9 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // application routes
-app.use('', routes_1.default);
+app.use('/api', routes_1.default);
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send('Welcome To Car Rental Reservation System');
 });
 // global error handler
 app.use(globalErrorHandler_1.default);

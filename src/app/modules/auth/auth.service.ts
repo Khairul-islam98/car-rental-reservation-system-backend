@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken';
 import config from '../../config';
 
 const registerIntoDB = async (payload: TUser) => {
+  // checking user exists
   const user = await User.findOne({ email: payload.email });
   if (user) {
     throw new AppError(httpStatus.BAD_REQUEST, 'This user already exist !');
@@ -17,13 +18,16 @@ const registerIntoDB = async (payload: TUser) => {
   return result;
 };
 const login = async (payload: TLoginUser) => {
+  // checking user exists
   const user = await User.isUserExist(payload.email);
   if (!user) {
     throw new AppError(httpStatus.BAD_REQUEST, 'User not found!');
   }
+  // check password matche
   if (!(await User.isPasswordMatched(payload?.password, user?.password))) {
     throw new AppError(httpStatus.FORBIDDEN, 'password do not matched!');
   }
+  // token create
   const jwtPayload = {
     email: user.email,
     role: user.role,
