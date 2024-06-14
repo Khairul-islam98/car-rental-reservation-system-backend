@@ -100,7 +100,9 @@ const returnCarIntoDB = (user, data) => __awaiter(void 0, void 0, void 0, functi
         }
         yield session.commitTransaction();
         yield session.endSession();
-        return result;
+        const resultData = result.toObject();
+        delete resultData.isBooked;
+        return resultData;
     }
     catch (err) {
         yield session.abortTransaction();

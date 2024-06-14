@@ -112,7 +112,9 @@ const returnCarIntoDB = async (
     await session.commitTransaction();
     await session.endSession();
 
-    return result;
+    const resultData = result.toObject();
+    delete (resultData as any).isBooked;
+    return resultData;
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
