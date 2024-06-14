@@ -68,6 +68,14 @@ const updateCars = catchAsync(async (req, res) => {
 const deleteCars = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await CarServices.deleteCarsFromDB(id);
+  if (!result) {
+    res.status(httpStatus.NOT_FOUND).json({
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'No Data Found',
+      data: [],
+    });
+  }
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

@@ -82,6 +82,14 @@ const updateCars = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 const deleteCars = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield car_service_1.CarServices.deleteCarsFromDB(id);
+    if (!result) {
+        res.status(http_status_1.default.NOT_FOUND).json({
+            success: false,
+            statusCode: http_status_1.default.NOT_FOUND,
+            message: 'No Data Found',
+            data: [],
+        });
+    }
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
