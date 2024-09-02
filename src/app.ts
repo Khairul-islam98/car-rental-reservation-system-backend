@@ -11,11 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: [
-      'https://car-rentals-services.netlify.app',
-      'http://localhost:5173',
-    ],
-    // methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: ['https://car-rentals-services.netlify.app'],
     credentials: true,
   }),
 );

@@ -14,11 +14,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: [
-        'https://car-rentals-services.netlify.app',
-        'http://localhost:5173',
-    ],
-    // methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: ['https://car-rentals-services.netlify.app'],
     credentials: true,
 }));
 // application routes
