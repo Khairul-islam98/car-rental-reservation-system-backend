@@ -22,14 +22,19 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const booking_model_1 = require("../booking/booking.model");
 const user_model_1 = require("../user/user.model");
 const car_utils_1 = require("./car.utils");
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const car_constant_1 = require("./car.constant");
 const createCarsIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // create a car
     const result = yield car_model_1.Car.create(payload);
     return result;
 });
-const getAllCarsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    // get all cars
-    const result = yield car_model_1.Car.find();
+const getAllCarsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const carQuery = new QueryBuilder_1.default(car_model_1.Car.find(), query)
+        .search(car_constant_1.carSeachableFields)
+        .filter()
+        .sort();
+    const result = yield carQuery.modelQuery;
     return result;
 });
 const getSingleCarsFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -91,6 +96,7 @@ const returnCarIntoDB = (user, data) => __awaiter(void 0, void 0, void 0, functi
         // save totalcost in DB
         const result = yield booking_model_1.Booking.findByIdAndUpdate(data.bookingId, {
             endTime: data.endTime,
+            payment: 'pending',
             totalCost: totalCost,
         }, { new: true, session })
             .populate('car')

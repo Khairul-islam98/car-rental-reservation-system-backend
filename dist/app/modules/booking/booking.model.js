@@ -20,7 +20,6 @@ const bookingSchema = new mongoose_1.Schema({
     },
     car: {
         type: mongoose_1.Schema.Types.ObjectId,
-        required: true,
         ref: 'Car',
     },
     totalCost: {
@@ -30,9 +29,42 @@ const bookingSchema = new mongoose_1.Schema({
     },
     isBooked: {
         type: String,
-        enum: ['unconfirmed', 'confirmed'],
+        enum: ['unconfirmed', 'confirmed', 'cancelled'],
         default: 'unconfirmed',
         required: true,
+    },
+    payment: {
+        type: String,
+        enum: ['pending', 'paid'],
+    },
+    gps: {
+        type: Boolean,
+        default: false,
+    },
+    childSeat: {
+        type: Boolean,
+        default: false,
+    },
+    drivingLicense: {
+        type: String,
+    },
+    nidOrPassport: {
+        type: String,
+    },
+    phone: {
+        type: String,
+    },
+    basicInsurance: {
+        type: Boolean,
+        default: false,
+    },
+    premiumInsurance: {
+        type: Boolean,
+        default: false,
+    },
+    fullInsurance: {
+        type: Boolean,
+        default: false,
     },
 }, {
     timestamps: true,

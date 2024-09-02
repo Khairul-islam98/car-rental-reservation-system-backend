@@ -30,7 +30,7 @@ const userSchema = new mongoose_1.Schema({
     role: {
         type: String,
         enum: ['user', 'admin'],
-        required: true,
+        default: 'user',
     },
     password: {
         type: String,
@@ -39,12 +39,19 @@ const userSchema = new mongoose_1.Schema({
     },
     phone: {
         type: String,
-        required: true,
     },
     address: {
         type: String,
-        required: true,
     },
+    status: {
+        type: String,
+        enum: ['active', 'block'],
+        default: 'active',
+    },
+    profilePicture: {
+        type: String,
+    },
+    isDeleted: { type: Boolean, default: false },
 }, {
     timestamps: true,
     toJSON: {
