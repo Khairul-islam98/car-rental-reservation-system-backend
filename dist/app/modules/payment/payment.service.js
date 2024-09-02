@@ -32,7 +32,7 @@ exports.paymentService = {
                 cus_name: 'John Doe',
                 tran_id: transactionId,
                 currency: 'BDT',
-                success_url: `http://localhost:5000/api/payment/confirmation?transactionId=${transactionId}&status=success`,
+                success_url: `https://car-rental-reservation-system-six.vercel.app/api/payment/confirmation?transactionId=${transactionId}&status=success`,
                 fail_url: 'http://www.merchantdomain.com/failedpage.html',
                 cancel_url: 'http://www.merchantdomain.com/cancelpage.html',
                 desc: bookingId,

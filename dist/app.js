@@ -9,16 +9,16 @@ const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalEr
 const notFound_1 = __importDefault(require("./app/middlewares/notFound"));
 const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 // parser
 app.use(express_1.default.json());
+app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
     origin: [
+        'https://car-rentals-services.netlify.app',
         'http://localhost:5173',
-        'http://localhost:5175',
-        'http://localhost:5177',
-        'http://localhost:5174',
-        'http://localhost:5176',
     ],
+    // methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }));
 // application routes
