@@ -20,7 +20,6 @@ const bookingSchema = new Schema<TBooking>(
     },
     car: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: 'Car',
     },
 
@@ -31,9 +30,42 @@ const bookingSchema = new Schema<TBooking>(
     },
     isBooked: {
       type: String,
-      enum: ['unconfirmed', 'confirmed'],
+      enum: ['unconfirmed', 'confirmed', 'cancelled'],
       default: 'unconfirmed',
       required: true,
+    },
+    payment: {
+      type: String,
+      enum: ['pending', 'paid'],
+    },
+    gps: {
+      type: Boolean,
+      default: false,
+    },
+    childSeat: {
+      type: Boolean,
+      default: false,
+    },
+    drivingLicense: {
+      type: String,
+    },
+    nidOrPassport: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    basicInsurance: {
+      type: Boolean,
+      default: false,
+    },
+    premiumInsurance: {
+      type: Boolean,
+      default: false,
+    },
+    fullInsurance: {
+      type: Boolean,
+      default: false,
     },
   },
   {

@@ -3,13 +3,14 @@ import { z } from 'zod';
 const createCarValidationSchema = z.object({
   body: z.object({
     name: z.string(),
-    description: z.string(),
-    color: z.string(),
+    description: z.string().optional(),
+    color: z.string().optional(),
     isElectric: z.boolean(),
     status: z.enum(['available', 'unavailable']).default('available'),
     features: z.array(z.string()),
     pricePerHour: z.number(),
-    isDeleted: z.boolean().default(false),
+    model: z.string(),
+    carType: z.string(),
   }),
 });
 const updateCarValidationSchema = z.object({
@@ -24,7 +25,8 @@ const updateCarValidationSchema = z.object({
       .optional(),
     features: z.array(z.string()).optional(),
     pricePerHour: z.number().optional(),
-    isDeleted: z.boolean().default(false).optional(),
+    model: z.string().optional(),
+    carType: z.string().optional(),
   }),
 });
 

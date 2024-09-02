@@ -7,13 +7,22 @@ const carSchema = new Schema<TCar>(
       type: String,
       required: true,
     },
-    description: {
+    image: {
       type: String,
       required: true,
     },
-    color: {
+    location: {
       type: String,
       required: true,
+    },
+    description: {
+      type: String,
+    },
+    model: {
+      type: String,
+    },
+    color: {
+      type: String,
     },
     isElectric: {
       type: Boolean,
@@ -32,9 +41,12 @@ const carSchema = new Schema<TCar>(
       type: Number,
       required: true,
     },
+    carType: {
+      type: String,
+      required: true,
+    },
     isDeleted: {
       type: Boolean,
-      required: true,
       default: false,
     },
   },

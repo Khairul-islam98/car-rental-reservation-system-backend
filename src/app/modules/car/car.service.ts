@@ -8,15 +8,20 @@ import mongoose from 'mongoose';
 import { Booking } from '../booking/booking.model';
 import { User } from '../user/user.model';
 import { totalCostCalculation } from './car.utils';
+import QueryBuilder from '../../builder/QueryBuilder';
+import { carSeachableFields } from './car.constant';
 
 const createCarsIntoDB = async (payload: TCar) => {
   // create a car
   const result = await Car.create(payload);
   return result;
 };
-const getAllCarsFromDB = async () => {
-  // get all cars
-  const result = await Car.find();
+const getAllCarsFromDB = async (query: Record<string, unknown>) => {
+  const carQuery = new QueryBuilder(Car.find(), query)
+    .search(carSeachableFields)
+    .filter()
+    .sort();
+  const result = await carQuery.modelQuery;
   return result;
 };
 const getSingleCarsFromDB = async (id: string) => {
@@ -72,7 +77,6 @@ const returnCarIntoDB = async (
   }
 
   const pricePerHour = carData?.pricePerHour;
-
   const bookingDataStartTime = bookingData?.startTime;
   // total cost calculation
   const totalCost = totalCostCalculation(
@@ -98,6 +102,7 @@ const returnCarIntoDB = async (
       data.bookingId,
       {
         endTime: data.endTime,
+        payment: 'pending',
         totalCost: totalCost,
       },
       { new: true, session },

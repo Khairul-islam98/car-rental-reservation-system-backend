@@ -9,6 +9,9 @@ export interface TUser {
   password: string;
   phone: string;
   address: string;
+  status: 'active' | 'block';
+  profilePicture?: string;
+  isDeleted: boolean;
 }
 
 export interface UserModel extends Model<TUser> {
