@@ -50,7 +50,7 @@ const getUpdateBookingIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0
         //   car.status = 'available';
         //   await car.save();
         // }
-        yield car_model_1.Car.findByIdAndUpdate(payload.car, { status: 'unavilable' }, { new: true });
+        yield car_model_1.Car.findByIdAndUpdate(payload.car, { status: 'unavailable' }, { new: true });
         const result = yield booking_model_1.Booking.findByIdAndUpdate(id, payload, { new: true });
         if (!result) {
             throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Booking not found!');

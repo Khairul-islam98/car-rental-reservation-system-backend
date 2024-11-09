@@ -101,7 +101,7 @@ const confirmationService = (transactionId, status) => __awaiter(void 0, void 0,
         message = 'Payment Failed!';
     }
     // Step 4: Read and modify the confirmation template
-    const filePath = (0, path_1.join)(__dirname, '../../views/confirmation.html');
+    const filePath = (0, path_1.join)(__dirname, '../../../../public/confirmation.html');
     let template = (0, fs_1.readFileSync)(filePath, 'utf-8');
     template = template.replace('{{message}}', message);
     return template;
