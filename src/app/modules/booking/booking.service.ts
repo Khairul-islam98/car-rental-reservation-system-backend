@@ -50,7 +50,7 @@ const getUpdateBookingIntoDB = async (
     // }
     await Car.findByIdAndUpdate(
       payload.car,
-      { status: 'unavilable' },
+      { status: 'unavailable' },
       { new: true },
     );
 
