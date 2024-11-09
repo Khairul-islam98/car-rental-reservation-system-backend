@@ -108,7 +108,7 @@ const confirmationService = async (transactionId: string, status: string) => {
   }
 
   // Step 4: Read and modify the confirmation template
-  const filePath = join(__dirname, '../../views/confirmation.html');
+  const filePath = join(__dirname, '../../../../public/confirmation.html');
   let template = readFileSync(filePath, 'utf-8');
 
   template = template.replace('{{message}}', message);
